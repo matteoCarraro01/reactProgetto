@@ -1,30 +1,34 @@
 import SingleBook from './SingleBook';
-import books from '../data/horror.json'
 import { Container, Row, Form, InputGroup } from 'react-bootstrap';
-import { useState } from 'react';
 
 
 
 
-function AllTheBooks() {
-    const [search, setSearch] = useState('')
-    const [filteredBooks, setFilteredBooks] = useState(books)
-    const filterBooks = (event) => {
-        setSearch(event.target.value)
-        const bookArray = books.filter((book) => book.title.toLowerCase().includes(event.target.value.toLowerCase().trim()))
-        setFilteredBooks(bookArray)
 
-        console.log(event.target.value)
+function AllTheBooks({ filteredBooks }) {
+    // const [search, setSearch] = useState('')
+    // const [filteredBooks, setFilteredBooks] = useState(books)
+    // const filterBooks = (event) => {
+    //     setSearch(event.target.value)
+    //     const bookArray = books.filter((book) => book.title.toLowerCase().includes(event.target.value.toLowerCase().trim()))
+    //     setFilteredBooks(bookArray)
 
-    }
+    //     console.log(event.target.value)
+
+    // }
     return (
         <Container>
-            <InputGroup className="mb-3">
+            {/* <InputGroup className="search-group mb-4">
+                <InputGroup.Text className="search-icon">
+                    🔍
+                </InputGroup.Text>
+
                 <Form.Control
                     onKeyUp={filterBooks}
-                    placeholder="Cerca"
+                    placeholder="Cerca un libro"
+                    className="search-input"
                 />
-            </InputGroup>
+            </InputGroup> */}
             <Row>
                 {filteredBooks.map((myBook) => (
                     <SingleBook key={myBook.asin} book={myBook} />

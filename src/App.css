@@ -1,0 +1,73 @@
+.book-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.book-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+
+.book-img {
+    cursor: pointer;
+}
+
+.book-img.selected {
+    border: 3px solid #dc3545;
+}
+
+
+.book-title {
+    font-size: 0.95rem;
+    min-height: 3rem;
+}
+
+
+.book-price {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #0d6efd;
+}
+
+.welcome-hero {
+    background-color: blue;
+    color: white;
+    padding: 3rem 0;
+    margin-bottom: 2rem;
+}
+
+.welcome-title {
+    font-weight: 700;
+}
+
+.welcome-subtitle {
+    opacity: 0.9;
+}
+
+
+.search-group {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.search-icon {
+    background-color: white;
+    border-right: none;
+    border-radius: 25px 0 0 25px;
+}
+
+.search-input {
+    border-left: none;
+    border-radius: 0 25px 25px 0;
+    padding-left: 0.5rem;
+}
+
+.search-input:focus {
+    box-shadow: none;
+    border-color: #ced4da;
+}
+
+.comment-list-wrapper {
+    max-height: 150px;
+    overflow-y: auto;
+}

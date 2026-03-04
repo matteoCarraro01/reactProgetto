@@ -1,6 +1,7 @@
 import CommentList from "./CommentList";
 import { useEffect, useState } from "react";
 import AddComment from "./AddComment";
+import React from "react";
 
 
 function CommentArea({ book }) {
@@ -34,7 +35,7 @@ function CommentArea({ book }) {
             <h6 className="comment-title">Commenti</h6>
 
             <div className="comment-add">
-                <AddComment asin={book.asin} />
+                <AddComment asin={book.asin} fetchComments={fetchComments} />
             </div>
 
             <div className="comment-list">

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { Col, Form, Row } from 'react-bootstrap'
+import { Button, Col, Form, Row } from 'react-bootstrap'
 
-function AddComment({ asin }) {
+function AddComment({ asin, fetchComments }) {
     const [formData, setFormData] = useState({
         comment: '',
         rate: '',
@@ -18,40 +18,58 @@ function AddComment({ asin }) {
         console.log(formData)
 
     }, [formData])
-    const handleSubmit = () => { }
+    const handleSubmit = async (event) => {
+        event.preventDefault()
+
+        try {
+            const response = await fetch(
+                `https://striveschool-api.herokuapp.com/api/comments`,
+                {
+                    headers: {
+                        Authorization:
+                            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTc5MWQwZGY1Y2I1ZDAwMTU0ZjQzNTYiLCJpYXQiOjE3NzE2MTM5NTQsImV4cCI6MTc3MjgyMzU1NH0.wuWbetq0r-U2eMff3VxZmh7H-GP8GHkUA3TgjQU6Fe8',
+
+
+                        "Content-Type": "application/json"
+                    },
+                    method: 'POST',
+                    body: JSON.stringify(formData)
+                },
+            );
+            fetchComments();
+        } catch (error) {
+            console.log(error)
+        }
+    }
     return (
-        <Form onSubmit={handleSubmit} className="add-comment-form">
-            <Row className="g-2 align-items-end">
-                <Col xs={12}>
+        <Form onSubmit={handleSubmit}>
+            <Row className="mb-3">
+                <Form.Group as={Col} md="4" controlId="validationCustom01">
+                    <Form.Label>Comment</Form.Label>
                     <Form.Control
-                        size="sm"
+                        required
                         type="text"
-                        placeholder="Scrivi un commento"
-                        name="comment"
+                        placeholder="comment"
+                        name='comment'
                         onChange={handleChange}
+
                     />
-                </Col>
 
-                <Col xs={8}>
-                    <Form.Select
-                        size="sm"
-                        name="rate"
+                </Form.Group>
+                <Form.Group as={Col} md="12" controlId="rate">
+                    <Form.Label>Rate</Form.Label>
+                    <Form.Control
+                        required
+                        type="text"
+                        placeholder="rate"
+                        name='rate'
                         onChange={handleChange}
-                    >
-                        <option value="">Voto</option>
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                    </Form.Select>
-                </Col>
 
-                <Col xs={4}>
-                    <Button size="sm" className="w-100" variant="primary">
-                        Invia
-                    </Button>
-                </Col>
+                    />
+
+                </Form.Group>
+                <Button onClick={handleSubmit} type="submit">Submit form</Button>
+
             </Row>
         </Form>
     )

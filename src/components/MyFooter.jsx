@@ -3,7 +3,7 @@
 
 function MyFooter() {
     return <>
-        <p>sono il footer</p>
+        <p>copyright to 'O SO IO!</p>
 
 
 
