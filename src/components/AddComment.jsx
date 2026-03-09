@@ -1,78 +1,115 @@
-import React, { useEffect, useState } from 'react'
-import { Button, Col, Form, Row } from 'react-bootstrap'
+import React, { useState } from "react";
+import { Button, Form, Card, Stack, Spinner } from "react-bootstrap";
 
 function AddComment({ asin, fetchComments }) {
+
     const [formData, setFormData] = useState({
-        comment: '',
-        rate: '',
+        comment: "",
+        rate: "",
         elementId: asin
-    })
+    });
+
+    const [loading, setLoading] = useState(false);
+
     const handleChange = (event) => {
         setFormData({
             ...formData,
             [event.target.name]: event.target.value
-        })
-    }
+        });
+    };
 
-    useEffect(() => {
-        console.log(formData)
-
-    }, [formData])
     const handleSubmit = async (event) => {
-        event.preventDefault()
+        event.preventDefault();
+        setLoading(true);
 
         try {
-            const response = await fetch(
-                `https://striveschool-api.herokuapp.com/api/comments`,
-                {
-                    headers: {
-                        Authorization:
-                            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTc5MWQwZGY1Y2I1ZDAwMTU0ZjQzNTYiLCJpYXQiOjE3NzE2MTM5NTQsImV4cCI6MTc3MjgyMzU1NH0.wuWbetq0r-U2eMff3VxZmh7H-GP8GHkUA3TgjQU6Fe8',
-
-
-                        "Content-Type": "application/json"
-                    },
-                    method: 'POST',
-                    body: JSON.stringify(formData)
+            await fetch(`https://striveschool-api.herokuapp.com/api/comments`, {
+                headers: {
+                    Authorization:
+                        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTc5MWQwZGY1Y2I1ZDAwMTU0ZjQzNTYiLCJpYXQiOjE3NzE2MTM5NTQsImV4cCI6MTc3MjgyMzU1NH0.wuWbetq0r-U2eMff3VxZmh7H-GP8GHkUA3TgjQU6Fe8",
+                    "Content-Type": "application/json"
                 },
-            );
+                method: "POST",
+                body: JSON.stringify(formData)
+            });
+
             fetchComments();
+
+            setFormData({
+                comment: "",
+                rate: "",
+                elementId: asin
+            });
+
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
-    }
+
+        setLoading(false);
+    };
+
     return (
-        <Form onSubmit={handleSubmit}>
-            <Row className="mb-3">
-                <Form.Group as={Col} md="4" controlId="validationCustom01">
-                    <Form.Label>Comment</Form.Label>
-                    <Form.Control
-                        required
-                        type="text"
-                        placeholder="comment"
-                        name='comment'
-                        onChange={handleChange}
+        <Card className="comment-form-card">
+            <Card.Body>
 
-                    />
+                <Card.Title className="mb-3">Add a review</Card.Title>
 
-                </Form.Group>
-                <Form.Group as={Col} md="12" controlId="rate">
-                    <Form.Label>Rate</Form.Label>
-                    <Form.Control
-                        required
-                        type="text"
-                        placeholder="rate"
-                        name='rate'
-                        onChange={handleChange}
+                <Form onSubmit={handleSubmit}>
 
-                    />
+                    <Stack gap={3}>
 
-                </Form.Group>
-                <Button onClick={handleSubmit} type="submit">Submit form</Button>
+                        <Form.Group>
+                            <Form.Label>Comment</Form.Label>
+                            <Form.Control
+                                type="text"
+                                placeholder="Write your comment..."
+                                name="comment"
+                                value={formData.comment}
+                                onChange={handleChange}
+                                required
+                            />
+                        </Form.Group>
 
-            </Row>
-        </Form>
-    )
+                        <Form.Group>
+                            <Form.Label>Rate</Form.Label>
+                            <Form.Select
+                                name="rate"
+                                value={formData.rate}
+                                onChange={handleChange}
+                                required
+                            >
+                                <option value="">Select rating</option>
+                                <option value="1">⭐ 1</option>
+                                <option value="2">⭐⭐ 2</option>
+                                <option value="3">⭐⭐⭐ 3</option>
+                                <option value="4">⭐⭐⭐⭐ 4</option>
+                                <option value="5">⭐⭐⭐⭐⭐ 5</option>
+                            </Form.Select>
+                        </Form.Group>
+
+                        <Button
+                            variant="danger"
+                            type="submit"
+                            className="submit-review-btn"
+                            disabled={loading}
+                        >
+                            {loading ? (
+                                <>
+                                    <Spinner animation="border" size="sm" className="me-2" />
+                                    Sending...
+                                </>
+                            ) : (
+                                "Submit Review"
+                            )}
+                        </Button>
+
+                    </Stack>
+
+                </Form>
+
+            </Card.Body>
+        </Card>
+    );
 }
 
-export default AddComment
+export default AddComment;

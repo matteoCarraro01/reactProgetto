@@ -1,49 +1,43 @@
+import { useState } from "react";
 import SingleBook from './SingleBook';
-import { Container, Row, Form, InputGroup } from 'react-bootstrap';
-
-
-
-
+import CommentArea from "./CommentArea";
+import { Container, Row, Col } from 'react-bootstrap';
 
 function AllTheBooks({ filteredBooks }) {
-    // const [search, setSearch] = useState('')
-    // const [filteredBooks, setFilteredBooks] = useState(books)
-    // const filterBooks = (event) => {
-    //     setSearch(event.target.value)
-    //     const bookArray = books.filter((book) => book.title.toLowerCase().includes(event.target.value.toLowerCase().trim()))
-    //     setFilteredBooks(bookArray)
 
-    //     console.log(event.target.value)
+    const [selectedBook, setSelectedBook] = useState(null);
 
-    // }
     return (
-        <Container>
-            {/* <InputGroup className="search-group mb-4">
-                <InputGroup.Text className="search-icon">
-                    🔍
-                </InputGroup.Text>
-
-                <Form.Control
-                    onKeyUp={filterBooks}
-                    placeholder="Cerca un libro"
-                    className="search-input"
-                />
-            </InputGroup> */}
+        <Container className="books-container">
             <Row>
-                {filteredBooks.map((myBook) => (
-                    <SingleBook key={myBook.asin} book={myBook} />
-                ))}
+
+
+                <Col md={8}>
+                    <Row>
+                        {filteredBooks.map((myBook) => (
+                            <SingleBook
+                                key={myBook.asin}
+                                book={myBook}
+                                setSelectedBook={setSelectedBook}
+                                selectedBook={selectedBook}
+                            />
+                        ))}
+                    </Row>
+                </Col>
+
+
+                <Col md={4}>
+                    <div className="comment-box">
+                        {selectedBook ? (
+                            <CommentArea book={selectedBook} />
+                        ) : (
+                            <p>Seleziona un libro</p>
+                        )}
+                    </div>
+                </Col>
             </Row>
         </Container>
-
     )
-
 }
-
-
-
-
-
-
 
 export default AllTheBooks;

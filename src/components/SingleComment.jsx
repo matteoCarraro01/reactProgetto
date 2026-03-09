@@ -5,8 +5,12 @@ import { ListGroup } from 'react-bootstrap'
 
 function SingleComment({ comment }) {
     return (
-        <ListGroup.Item className="py-1 small text-muted">
-            {comment.comment}
+        <ListGroup.Item className="small">
+
+            {"⭐".repeat(comment.rate)}
+
+            <div>{comment.comment}</div>
+
         </ListGroup.Item>
     )
 }

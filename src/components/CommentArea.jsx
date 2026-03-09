@@ -26,7 +26,7 @@ function CommentArea({ book }) {
     }
 
 
-    useEffect(() => { fetchComments() }, []);
+    useEffect(() => { fetchComments() }, [book]);
 
 
 
